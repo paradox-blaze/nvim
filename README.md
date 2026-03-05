@@ -1,67 +1,293 @@
-# Welcome to my neovim config
+# Neovim Configuration
 
-## Here's a guide on how to use my config (or at least the most important stuff you need to know)
+Welcome to my **Neovim configuration**.
 
-### IMPORTANT: config requires Nvim 0.11+
-### Recomended: brew install nvim to get latest version or build from source 
+This guide explains the basic structure of the config and the most
+important keybindings so you can start using or modifying it quickly.
 
-### First let's understand the file structure:
-(Leader key is space in case you didn't know)
+------------------------------------------------------------------------
 
-Inside the nvim/ directory you have init.lua through which your lazy plugins load through automatically
+# Requirements
 
-recommended not to touch this file
+-   **Neovim 0.11+ required**
+-   Recommended install:
 
-inside the lua/ directory we have:
-_lua/plugins_
-_lua/config_
+``` bash
+brew install neovim
+```
 
-#### lua/config:
+or build Neovim from source to get the newest version.
 
-This contains only one file; options.lua
-This file can be used to change keybindings and setting leader key, tabs, textwrapping, line numbering etc
+------------------------------------------------------------------------
 
+# Leader Key
 
-#### lua/plugins:
+The **leader key is `Space`**.
 
-This contains multiple files for handling plugins
-lazy.nvim reads directly through this directory and loads the plugins automatically 
+Example:
 
+    Space + s + f
 
-#### plugins:
-**blink.lua** - Drop down menu for autocomplete (both enter and tab autocompletes)
+means press:
 
-**autopairs.lua** - Automatically completes brackets and quotes and places the cursor inside
+    Space → s → f
 
-**theme.lua** - dracula theme is set by default 
+------------------------------------------------------------------------
 
-**treesitter.lua** - tells the lsp how to highlight and color the keywords properly within a language, if a new language is required just add the language inside "ensure_installed"
+# File Structure
 
-**lsp.lua** -
-1. Automatically handles lsp configuration through _nvim-lspconfig_ (not using mason right now instead manually installing lsps)
-2. Add a language inside _vim.lsp.enable()_ once the language server and the compiler is installed (make sure to also add it in treesitter.lua as previously mentioned)
+Inside the `nvim/` directory you will find:
 
-3. _]d_ and _[d_ to go back and forth between diagnostics
-4. _<leader>+e_ to open a floating diagnostics window
-5. _gd_ to go to definition of anything
+    nvim/
+    │
+    ├── init.lua
+    └── lua/
+        ├── config/
+        │   └── options.lua
+        │
+        └── plugins/
+            ├── autopairs.lua
+            ├── blink.lua
+            ├── lsp.lua
+            ├── surround.lua
+            ├── telescope.lua
+            ├── theme.lua
+            └── treesitter.lua
 
-**telescope.lua** -
-1. Telescope is your fuzzy finder, can search inside the file as well as across files
-2. _<leader>+/_ to fuzzy search inside the file. _<leader>+s+f_ to open a buffer to find files within the directory and _<leader>+s+g_ to search for text within files inside the directory
-3. When cursor is on a word and you want to find and replace, _<leader>+r+w_ to perform a confirmation action to replace all instances
+------------------------------------------------------------------------
 
-(there's a lot more since this was directly taken from TJ's config from kickstart.nvim, read through the official docs to know more)
+# init.lua
 
-**surround.lua** -
-1. surround.nvim lets you add things around anything
-2. In normal mode _ys_ puts in surround mode, _iw_ (in word) selects inside the word and now any key pressed (example ",',brackets etc..) will surround the word selected
-3. In normal mode _cs_ can be used to change what is already surrounding the word (example cs"' changes a word surrounded by double quotes to a word surrounded by single quotes)
-4. In visual mode _S_ can be used to surround a selected item. (example hello is selected in visual mode, _S"_ surrounds hello in double quotes)
+`init.lua` bootstraps the plugin manager and loads plugins
+automatically.
 
+It uses **lazy.nvim** to load everything from the `lua/plugins`
+directory.
 
-That's all the important information required to use and make this config your own,
+**Recommended: do not modify this file.**
 
-Enjoy!
+------------------------------------------------------------------------
 
+# lua/config
 
+This directory contains configuration files.
+
+### options.lua
+
+Handles general Neovim settings such as:
+
+-   keybindings
+-   leader key
+-   tabs / indentation
+-   text wrapping
+-   line numbers
+-   general editor behavior
+
+This is the place to change **core editor preferences**.
+
+------------------------------------------------------------------------
+
+# lua/plugins
+
+Each file inside this directory configures a plugin.
+
+`lazy.nvim` automatically reads this directory and loads every plugin
+defined here.
+
+------------------------------------------------------------------------
+
+# Plugin Overview
+
+## blink.lua
+
+Provides **autocomplete dropdown menus**.
+
+Features:
+
+-   LSP-based completion
+-   Tab or Enter to accept suggestions
+-   Fast fuzzy matching
+
+------------------------------------------------------------------------
+
+## autopairs.lua
+
+Automatically inserts matching characters.
+
+Examples:
+
+    ( → ()
+    { → {}
+    " → ""
+    ' → ''
+
+Cursor is automatically placed inside the pair.
+
+------------------------------------------------------------------------
+
+## theme.lua
+
+Sets the default theme.
+
+Current theme:
+
+-   **Dracula**
+
+------------------------------------------------------------------------
+
+## treesitter.lua
+
+Configures **Treesitter syntax highlighting**.
+
+Treesitter provides:
+
+-   better syntax highlighting
+-   improved code parsing
+-   language-aware editing
+
+To add support for a new language:
+
+1.  Open `treesitter.lua`
+2.  Add the language to:
+
+```{=html}
+<!-- -->
+```
+    ensure_installed
+
+------------------------------------------------------------------------
+
+## lsp.lua
+
+Handles **Language Server Protocol (LSP)** configuration using
+**nvim-lspconfig**.
+
+Currently **Mason is not used** --- language servers must be installed
+manually.
+
+### Adding a new language
+
+1.  Install the language server on your system
+2.  Add it inside:
+
+```{=html}
+<!-- -->
+```
+    vim.lsp.enable()
+
+3.  Also add the language in `treesitter.lua`
+
+### LSP Keybindings
+
+Diagnostics navigation:
+
+    ]d  → next diagnostic
+    [d  → previous diagnostic
+
+Diagnostics window:
+
+    Space + e
+
+Go to definition:
+
+    gd
+
+------------------------------------------------------------------------
+
+## telescope.lua
+
+Telescope is the **fuzzy finder** used for searching files, text, and
+symbols.
+
+### Search inside the current file
+
+    Space + /
+
+### Find files in the project
+
+    Space + s + f
+
+### Search text across the project
+
+    Space + s + g
+
+### Find and replace word under cursor
+
+    Space + r + w
+
+This will:
+
+1.  Prompt for replacement text
+2.  Confirm each replacement
+
+The Telescope configuration was originally based on **kickstart.nvim by
+TJ DeVries**, so many additional features are available.
+
+------------------------------------------------------------------------
+
+## surround.lua
+
+Provides **surround editing** functionality.
+
+You can quickly add, change, or remove surrounding characters like
+quotes or brackets.
+
+### Surround a word
+
+Normal mode:
+
+    ys
+
+Example:
+
+    ysiw"
+
+Result:
+
+    hello → "hello"
+
+### Change surrounding characters
+
+Normal mode:
+
+    cs
+
+Example:
+
+    cs"'
+
+Changes:
+
+    "hello" → 'hello'
+
+### Surround visual selection
+
+Visual mode:
+
+    S
+
+Example:
+
+    Select: hello
+    S"
+
+Result:
+
+    "hello"
+
+------------------------------------------------------------------------
+
+# Final Notes
+
+This configuration is meant to be:
+
+-   simple
+-   fast
+-   easy to extend
+
+Feel free to modify the plugins or add new ones to suit your workflow.
+
+------------------------------------------------------------------------
+
+Enjoy! 
 
