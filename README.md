@@ -150,9 +150,6 @@ To add support for a new language:
 1.  Open `treesitter.lua`
 2.  Add the language to:
 
-```{=html}
-<!-- -->
-```
     ensure_installed
 
 ------------------------------------------------------------------------
@@ -170,9 +167,6 @@ manually.
 1.  Install the language server on your system
 2.  Add it inside:
 
-```{=html}
-<!-- -->
-```
     vim.lsp.enable()
 
 3.  Also add the language in `treesitter.lua`
