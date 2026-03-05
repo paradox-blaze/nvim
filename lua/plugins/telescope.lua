@@ -80,4 +80,12 @@ return { -- Fuzzy Finder (files, lsp, etc)
     -- Shortcut for searching your Neovim configuration files
     vim.keymap.set('n', '<leader>sn', function() builtin.find_files { cwd = vim.fn.stdpath 'config' } end, { desc = '[S]earch [N]eovim files' })
   end,
+vim.keymap.set("n", "<leader>rw", function()
+  local word = vim.fn.expand("<cword>")
+  vim.ui.input({ prompt = "Replace '" .. word .. "' with: " }, function(replacement)
+    if replacement then
+      vim.cmd("%s/" .. word .. "/" .. replacement .. "/gc")
+    end
+  end)
+end, { desc = "Replace word under cursor" })
 }

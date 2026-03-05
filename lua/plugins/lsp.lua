@@ -21,11 +21,17 @@ return {
     {
         "neovim/nvim-lspconfig",
         config = function()
+            vim.lsp.config("rust_analyzer", {
+                cmd = { "rust-analyzer" },
+                filetypes = { "rust" },
+                root_markers = { "Cargo.toml", ".git" },
+            })
             vim.lsp.enable({
                 "lua_ls",
                 "pyright",
                 "yamlls",
                 "clangd",
+                "rust_analyzer",
             })
 
             vim.api.nvim_create_autocmd("LspAttach", {
