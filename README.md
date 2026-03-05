@@ -281,7 +281,9 @@ This configuration is meant to be:
 
 Feel free to modify the plugins or add new ones to suit your workflow.
 
-And remember. READ THE FRIENDLY MANUAL ;)
+And remember,
+
+READ THE FRIENDLY MANUAL ;)
 
 ------------------------------------------------------------------------
 
