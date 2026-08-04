@@ -22,10 +22,14 @@ return { -- Fuzzy Finder (files, lsp, etc)
   },
   config = function()
     -- [[ Configure Telescope ]]
+
     require('telescope').setup {
       extensions = {
         ['ui-select'] = { require('telescope.themes').get_dropdown() },
       },
+      defaults = {
+          hidden = true,
+      }
     }
 
     -- Enable Telescope extensions if they are installed

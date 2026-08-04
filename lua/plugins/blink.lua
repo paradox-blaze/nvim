@@ -9,7 +9,6 @@ return {
         ["<C-n>"] = { "select_next" },
         ["<C-p>"] = { "select_prev" },
 
-        ["<CR>"] = { "accept", "fallback" },
         ["<Tab>"] = { "accept", "fallback" },
       },
 

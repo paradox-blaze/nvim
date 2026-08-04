@@ -1,34 +1,32 @@
 -- ~/.config/nvim/lua/plugins/theme.lua
 return {
   {
-    "Mofiqul/dracula.nvim",
+    "rose-pine/neovim",
+    name = "rose-pine",
     lazy = false,
     priority = 1000,
     config = function()
-      require("dracula").setup({
-        -- This enables the transparency you wanted earlier
-        transparent_bg = true, 
-        -- Optional: makes comments italicized for a cleaner look
-        italic_comment = true, 
+      require("rose-pine").setup({
+        variant = "main", -- 'main', 'moon', or 'dawn' (Primeagen uses 'main')
+        dark_variant = "main",
+        
+        styles = {
+          bold = true,
+          italic = true,       -- Replaces your italic_comment preference
+        },
+        
+        -- If you still find some elements (like floating windows) aren't 
+        -- perfectly transparent, you can override them here instead of using vim.api
+        highlight_groups = {
+          NormalFloat = { bg = "NONE" },
+          FloatBorder = { bg = "NONE" },
+          -- Example of how to override a specific Treesitter/LSP token if you 
+          -- want to tweak Rosé Pine's defaults later:
+          -- ["@variable.parameter"] = { fg = "iris", italic = true },
+        }
       })
-      
 
-      vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
-      vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
-      vim.api.nvim_set_hl(0, "SignColumn", { bg = "none" }) -- Keeps the gutter transparent
-      vim.api.nvim_set_hl(0, "LineNr", { bg = "none" })     -- Keeps line numbers transparent
-
-      -- Load the colorscheme
-      vim.cmd("colorscheme dracula")
+      vim.cmd("colorscheme rose-pine")
     end,
   }
 }
-
-
-
-
-
-
-
-
-

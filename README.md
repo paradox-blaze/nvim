@@ -105,7 +105,7 @@ Provides **autocomplete dropdown menus**.
 Features:
 
 -   LSP-based completion
--   Tab or Enter to accept suggestions
+-   Tab to accept suggestions (Enter no longer accepts)
 -   Fast fuzzy matching
 
 ------------------------------------------------------------------------
@@ -131,7 +131,11 @@ Sets the default theme.
 
 Current theme:
 
--   **Dracula**
+-   **Rosé Pine** (variant: `main`)
+
+Rosé Pine provides built-in support for transparent backgrounds via
+`NormalFloat` and `FloatBorder` highlight group overrides — no manual
+`vim.api.nvim_set_hl` calls needed.
 
 ------------------------------------------------------------------------
 
@@ -144,32 +148,59 @@ Treesitter provides:
 -   better syntax highlighting
 -   improved code parsing
 -   language-aware editing
+-   tree-based indentation
+
+Currently installed parsers:
+
+    json, yaml, toml, html, css
+    c, rust, bash
+    python, lua
+    markdown, markdown_inline, rst
+    vim, vimdoc, query
+    regex, diff
 
 To add support for a new language:
 
 1.  Open `treesitter.lua`
-2.  Add the language to:
-
-    ensure_installed
+2.  Add the language to `ensure_installed`
 
 ------------------------------------------------------------------------
 
 ## lsp.lua
 
-Handles **Language Server Protocol (LSP)** configuration using
-**nvim-lspconfig**.
+Handles **Language Server Protocol (LSP)** configuration.
 
-Currently **Mason is not used** --- language servers must be installed
-manually.
+LSP servers are now managed through **Mason** — no manual installation
+required for most servers.
 
-### Adding a new language
+### Mason
 
-1.  Install the language server on your system
-2.  Add it inside:
+[mason.nvim](https://github.com/williamboman/mason.nvim) installs and
+manages LSP servers automatically inside Neovim. Open the Mason UI with:
 
-    vim.lsp.enable()
+    :Mason
 
-3.  Also add the language in `treesitter.lua`
+[mason-lspconfig.nvim](https://github.com/williamboman/mason-lspconfig.nvim)
+bridges Mason with `nvim-lspconfig` and auto-installs the following
+servers on startup:
+
+    pyright   → Python
+    lua_ls    → Lua
+    yamlls    → YAML
+
+### Manually managed servers
+
+The following are installed outside Mason and configured directly:
+
+    clangd         → C / C++
+    rust_analyzer  → Rust
+
+### Adding a new language (Mason)
+
+1.  Add the server name to `ensure_installed` in the
+    `mason-lspconfig` opts block inside `lsp.lua`
+2.  Add the language parser to `treesitter.lua`
+3.  Restart Neovim — Mason installs the server automatically
 
 ### LSP Keybindings
 
@@ -186,12 +217,28 @@ Go to definition:
 
     gd
 
+Find references:
+
+    gr
+
+Go to implementation:
+
+    gi
+
+Rename symbol:
+
+    Space + rn
+
+Code actions:
+
+    Space + ca
+
 ------------------------------------------------------------------------
 
 ## telescope.lua
 
 Telescope is the **fuzzy finder** used for searching files, text, and
-symbols.
+symbols. Hidden files are included in search results by default.
 
 ### Search inside the current file
 
@@ -287,5 +334,4 @@ READ THE FRIENDLY MANUAL ;)
 
 ------------------------------------------------------------------------
 
-Enjoy! 
-
+Enjoy!
