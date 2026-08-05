@@ -26,4 +26,5 @@ end, { expr = true })
 
 vim.keymap.set('n', '<leader>y', '"+y', { noremap = true, silent = true })
 vim.keymap.set('v', '<leader>y', '"+y', { noremap = true, silent = true })
-
+vim.opt.conceallevel = 2 
+vim.opt.concealcursor = "nc"
